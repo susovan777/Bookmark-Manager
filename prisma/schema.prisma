@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ___MODELS___
+
+// 🟢 User
+model User {
+  id       String  @id @default(uuid())
+  email    String  @unique
+  password String
+  name     String? // ? means this field is optional (can be NULL)
+
+  bookmarks  Bookmark[]
+  collection Collection[]
+
+  createdAt DateTime @default(now())
+}
+
+// 🟣 Bookmark
+model Bookmark {
+  id          String  @id @default(uuid())
+  title       String
+  url         String
+  favicon     String?
+  description String?
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  collection BookmarkCollection[]
+
+  createdAt DateTime @default(now())
+}
+
+// 🟡 Collection
+model Collection {
+  id   String @id @default(uuid())
+  name String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  bookmarks BookmarkCollection[]
+
+  createdAt DateTime @default(now())
+}
+
+// 🔵 Join Table
+model BookmarkCollection {
+  bookmarkId   String
+  collectionId String
+
+  bookmark   Bookmark   @relation(fields: [bookmarkId], references: [id])
+  collection Collection @relation(fields: [collectionId], references: [id])
+
+  @@id([bookmarkId, collectionId])
+}
