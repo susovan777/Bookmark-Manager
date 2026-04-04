@@ -1,5 +1,7 @@
 import { db } from '@/lib/db';
+import { authOptions } from '@/lib/auth';
 import { NextRequest } from 'next/server';
+import { getServerSession } from 'next-auth';
 
 /**
  * Creates a new bookmark for the user.
@@ -17,9 +19,14 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
     const { title, url } = body;
+    const session = getServerSession(authOptions)
 
     if (!url) {
       return Response.json({ error: 'URL is required' }, { status: 400 });
+    }
+
+    if(!session) {
+      return Response.json({error: 'Unauthorized'}, {status: 401})
     }
 
     // favicon auto generate
@@ -30,7 +37,7 @@ export const POST = async (req: NextRequest) => {
         title: title || url,
         url,
         favicon,
-        userId: '12345', // 🔄️ replace it after auth
+        userId: session.user.id, // 🔄️ replace it after auth
       },
     });
 
