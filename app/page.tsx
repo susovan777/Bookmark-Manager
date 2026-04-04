@@ -1,6 +1,5 @@
 'use client';
 
-import { Card, CardContent } from '@/components/ui/card';
 import { useEffect, useState } from 'react';
 
 const Home = () => {

@@ -1,21 +1,36 @@
-import BookmarkCard from '../components/bookmark-card';
+'use client';
 
-const bookmarks = [
-  {
-    id: '1',
-    title: 'GitHub',
-    url: 'https://github.com',
-    favicon: 'https://www.google.com/s2/favicons?sz=64&domain_url=github.com',
-  },
-  {
-    id: '2',
-    title: 'YouTube',
-    url: 'https://youtube.com',
-    favicon: 'https://www.google.com/s2/favicons?sz=64&domain_url=youtube.com',
-  },
-];
+import { useEffect, useState } from 'react';
+import BookmarkCard from '../components/bookmark-card';
+import axios from 'axios';
+
+// const sample_data = [
+//   {
+//     id: '1',
+//     title: 'GitHub',
+//     url: 'https://github.com',
+//     favicon: 'https://www.google.com/s2/favicons?sz=64&domain_url=github.com',
+//   },
+//   {
+//     id: '2',
+//     title: 'YouTube',
+//     url: 'https://youtube.com',
+//     favicon: 'https://www.google.com/s2/favicons?sz=64&domain_url=youtube.com',
+//   },
+// ];
 
 const BookmarkPage = () => {
+  const [bookmarks, setBookmarks] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchBookmarks = async () => {
+      const res = await axios.get('/api/bookmarks');
+      setBookmarks(res.data);
+    };
+
+    fetchBookmarks();
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

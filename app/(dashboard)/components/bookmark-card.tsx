@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import Link from 'next/link';
+import { toast } from 'sonner';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +12,6 @@ import {
 import { MoreVertical } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { Card, CardContent } from '@/components/ui/card';
-import { toast } from 'sonner';
 
 type Bookmark = { id: string; title: string; url: string; favicon: string };
 
@@ -22,7 +22,7 @@ const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
     e.preventDefault();
 
     try {
-      await axios.delete(`/api/bookmark/${bookmark.id}`);
+      await axios.delete(`/api/bookmarks/${bookmark.id}`);
       toast('Bookmark deleted', { position: 'bottom-right' });
     } catch (error) {
       console.error('Failed to delete bookmark:', error);
