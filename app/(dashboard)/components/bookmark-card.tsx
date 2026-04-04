@@ -1,4 +1,7 @@
-import { Card, CardContent } from '@/components/ui/card';
+'use client';
+
+import axios from 'axios';
+import Link from 'next/link';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,11 +9,30 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { MoreVertical } from 'lucide-react';
-import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner';
 
 type Bookmark = { id: string; title: string; url: string; favicon: string };
 
 const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
+  const router = useRouter();
+
+  const handleDelete = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    try {
+      await axios.delete(`/api/bookmark/${bookmark.id}`);
+      toast('Bookmark deleted', { position: 'bottom-right' });
+    } catch (error) {
+      console.error('Failed to delete bookmark:', error);
+      toast.error('Failed to delete bookmark');
+    }
+
+    // Refresh the current page
+    router.refresh();
+  };
+
   return (
     <Card className="relative rounded-sm cursor-pointer group hover:shadow-md hover:-translate-y-1 transition-all duration-200 hover:scale-[1.02]">
       {/* Menu icon */}
@@ -22,7 +44,9 @@ const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
 
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500" onClick={handleDelete}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
