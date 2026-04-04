@@ -1,13 +1,38 @@
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { MoreVertical } from 'lucide-react';
 import Link from 'next/link';
 
 type Bookmark = { id: string; title: string; url: string; favicon: string };
 
 const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
   return (
-    <Link href={bookmark.url} target="_blank">
-      <Card className="cursor-pointer hover:shadow-md hover:scale-[1.02] transition">
-        <CardContent className="p-4 flex items-start gap-3">
+    <Card className="relative rounded-sm cursor-pointer group hover:shadow-md hover:-translate-y-1 transition-all duration-200 hover:scale-[1.02]">
+      {/* Menu icon */}
+      <div className="absolute top-3 right-3 z-10">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <MoreVertical className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Edit</DropdownMenuItem>
+            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <CardContent className="p-4">
+        <Link
+          href={bookmark.url}
+          target="_blank"
+          className="flex items-start gap-3"
+        >
           {/* Favicon */}
           <img
             src={bookmark.favicon}
@@ -17,14 +42,14 @@ const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
 
           {/* Content */}
           <div className="flex-1 min-w-0">
-            <h3 className="font-medium truncate">{bookmark.title}</h3>
-            <p className="text-small text-muted-foreground truncate">
+            <h3 className="text-sm font-medium truncate">{bookmark.title}</h3>
+            <p className="text-xs text-muted-foreground truncate">
               {bookmark.url}
             </p>
           </div>
-        </CardContent>
-      </Card>
-    </Link>
+        </Link>
+      </CardContent>
+    </Card>
   );
 };
 
