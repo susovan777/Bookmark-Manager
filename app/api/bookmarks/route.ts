@@ -37,7 +37,7 @@ export const POST = async (req: NextRequest) => {
         title: title || url,
         url,
         favicon,
-        userId: session.user.id, // 🔄️ replace it after auth
+        userId: session.user.id, 
       },
     });
 
