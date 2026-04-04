@@ -1,7 +1,7 @@
 import { db } from '@/lib/db';
 import { authOptions } from '@/lib/auth';
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 
 /**
  * Creates a new bookmark for the user.
@@ -19,13 +19,13 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
     const { title, url } = body;
-    const session = getServerSession(authOptions)
+    const session = await getServerSession(authOptions)
 
     if (!url) {
       return Response.json({ error: 'URL is required' }, { status: 400 });
     }
 
-    if(!session) {
+    if(!session || !session.user) {
       return Response.json({error: 'Unauthorized'}, {status: 401})
     }
 

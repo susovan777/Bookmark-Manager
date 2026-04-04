@@ -34,11 +34,18 @@ const Home = () => {
   };
 
   return (
-    <div className='max-w-3xl mx-auto py-10 px-4'>
-      <h1 className='text-2xl font-semibold mb-6'>My Bookmarks</h1>
+    <div className="max-w-3xl mx-auto py-10 px-4">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-semibold">Bookmarks</h1>
+
+        <input
+          placeholder="Search..."
+          className="border px-3 py-2 rounded-lg w-64"
+        />
+      </div>
 
       {/* Input Section */}
-      <div className='flex gap-2 mb-6'>
+      <div className="flex gap-2 mb-6">
         <input
           value={url}
           onChange={(e) => setUrl(e.target.value)}
@@ -51,20 +58,25 @@ const Home = () => {
       </div>
 
       {/* Bookmark List */}
-      <div className='grid gap-4'>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
         {bookmarks.map((b) => (
-          <Card key={b.id}>
-            <CardContent className='flex items-center gap-3 p-4'>
-              <img src={b.favicon} alt="" className="w-6 h-6" />
-              <div className='flex flex-col'>
-                <a href={b.url} target="_blank" className='font-medium hover:underline'>
-                  {b.title}
-                </a>
+          <div
+            key={b.id}
+            className="border rounded-lg p-4 hover:shadow transition"
+          >
+            <div className="flex items-center gap-2 mb-2">
+              <img src={b.favicon} className="w-5 h-5" />
+              <span className="font-medium">{b.title}</span>
+            </div>
 
-                <span className='text-sm text-muted-foreground'>{b.url}</span>
-              </div>
-            </CardContent>
-          </Card>
+            <a
+              href={b.url}
+              target="_blank"
+              className="text-sm text-muted-foreground"
+            >
+              {b.url}
+            </a>
+          </div>
         ))}
       </div>
     </div>
