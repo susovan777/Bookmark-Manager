@@ -43,6 +43,7 @@ export const POST = async (req: NextRequest) => {
 
     return Response.json(bookmark);
   } catch (error) {
+    console.error('CREATE ERROR:', error);
     return Response.json({ error: error }, { status: 500 });
   }
 };

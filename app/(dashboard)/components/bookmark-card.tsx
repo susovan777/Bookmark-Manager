@@ -17,12 +17,18 @@ type Bookmark = { id: string; title: string; url: string; favicon: string };
 
 const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
   const router = useRouter();
+  let isDeleting = false;
 
-  const handleDelete = async (e: { preventDefault: () => void }) => {
+  const handleDelete = async (e: any) => {
     e.preventDefault();
+    e.stopPropagation();
+
+    if (isDeleting) return; // 🔥 prevent double call
+    isDeleting = true;
 
     try {
-      await axios.delete(`/api/bookmarks/${bookmark.id}`);
+      console.log(bookmark.id);
+      await axios.delete(`/api/bookmarks/789`);
       toast('Bookmark deleted', { position: 'bottom-right' });
     } catch (error) {
       console.error('Failed to delete bookmark:', error);

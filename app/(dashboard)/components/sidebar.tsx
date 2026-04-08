@@ -3,13 +3,15 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
+import { Bookmark, Folders, Settings } from 'lucide-react';
 
 const Sidebar = () => {
   const pathname = usePathname();
 
   const links = [
-    { name: 'Bookmarks', href: '/bookmarks' },
-    { name: 'Collections', href: '/collections' },
+    { name: 'Bookmarks', href: '/bookmarks', icon: <Bookmark size={18} /> },
+    { name: 'Categories', href: '/categories', icon: <Folders size={18} /> },
+    { name: 'Settings', href: '/settings', icon: <Settings size={18} /> },
   ];
 
   return (
@@ -25,12 +27,13 @@ const Sidebar = () => {
               key={link.name}
               href={link.href}
               className={cn(
-                'block py-2 px-3 rounded-md text-sm transition',
+                'flex gap-2 items-center py-2 px-3 rounded-md text-sm transition',
                 isActive
                   ? 'bg-muted font-medium'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground'
               )}
             >
+              {link.icon}
               {link.name}
             </Link>
           );
