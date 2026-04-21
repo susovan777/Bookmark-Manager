@@ -1,3 +1,4 @@
+// Bookmark-Manager\lib\auth.ts
 import { db } from './db';
 import { NextAuthOptions } from 'next-auth';
 import { compare } from 'bcrypt-ts';

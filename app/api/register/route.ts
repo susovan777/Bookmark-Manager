@@ -1,3 +1,4 @@
+// app\api\register\route.ts
 import { db } from '@/lib/db';
 import { hash } from 'bcrypt-ts';
 

@@ -1,3 +1,4 @@
+// app\api\bookmarks\[id]\route.ts
 import { db } from '@/lib/db';
 
 export const DELETE = async (

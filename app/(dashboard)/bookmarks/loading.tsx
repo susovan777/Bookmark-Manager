@@ -1,3 +1,4 @@
+// bookmark-manager/app/(dashboard)/bookmarks/loading.tsx
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Loading = () => {

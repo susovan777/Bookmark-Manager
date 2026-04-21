@@ -1,6 +1,7 @@
+// bookmark-manager/app/(dashboard)/layout.tsx
 import React from 'react';
-import Sidebar from './components/sidebar';
-import Header from './components/header';
+import Sidebar from './_components/sidebar';
+import Header from './_components/header';
 
 const Dashboard = ({ children }: { children: React.ReactNode }) => {
   return (

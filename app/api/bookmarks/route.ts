@@ -1,3 +1,4 @@
+// Bookmark-Manager\app\api\bookmarks\route.ts
 import { db } from '@/lib/db';
 import { authOptions } from '@/lib/auth';
 import { NextRequest } from 'next/server';
@@ -19,14 +20,14 @@ export const POST = async (req: NextRequest) => {
   try {
     const body = await req.json();
     const { title, url } = body;
-    const session = await getServerSession(authOptions)
+    const session = await getServerSession(authOptions);
 
     if (!url) {
       return Response.json({ error: 'URL is required' }, { status: 400 });
     }
 
-    if(!session || !session.user) {
-      return Response.json({error: 'Unauthorized'}, {status: 401})
+    if (!session || !session.user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // favicon auto generate
@@ -37,7 +38,7 @@ export const POST = async (req: NextRequest) => {
         title: title || url,
         url,
         favicon,
-        userId: session.user.id, 
+        userId: session.user.id,
       },
     });
 
