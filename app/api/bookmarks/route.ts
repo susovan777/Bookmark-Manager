@@ -27,6 +27,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     if (!session || !session.user) {
+      // (!session?.user)
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -45,7 +46,10 @@ export const POST = async (req: NextRequest) => {
     return Response.json(bookmark);
   } catch (error) {
     console.error('CREATE ERROR:', error);
-    return Response.json({ error: error }, { status: 500 });
+    return Response.json(
+      { error: 'Failed to create bookmark' },
+      { status: 500 }
+    );
   }
 };
 
@@ -58,11 +62,24 @@ export const POST = async (req: NextRequest) => {
  * // Returns: [{ id: "...", title: "Google", url: "https://google.com", ... }]
  */
 export const GET = async () => {
-  const bookmark = await db.bookmark.findMany({
-    orderBy: {
-      createdAt: 'desc',
-    },
-  });
+  try {
+    const session = await getServerSession(authOptions);
 
-  return Response.json(bookmark);
+    if (!session?.user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 500 });
+    }
+
+    const bookmarks = await db.bookmark.findMany({
+      where: { userId: session.user.id },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return Response.json(bookmarks);
+  } catch (error) {
+    console.error('GET ERROR:', error);
+    return Response.json(
+      { error: 'Failed to fetch bookmarks' },
+      { status: 500 }
+    );
+  }
 };
