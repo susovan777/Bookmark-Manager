@@ -1,7 +1,7 @@
 // Bookmark-Manager\lib\auth.ts
 import { db } from './db';
-import { NextAuthOptions } from 'next-auth';
 import { compare } from 'bcrypt-ts';
+import { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
 export const authOptions: NextAuthOptions = {
@@ -23,6 +23,7 @@ export const authOptions: NextAuthOptions = {
 
         if (!isValid) return null;
 
+        // Return id here — it flows into the JWT token
         return {
           id: user.id,
           email: user.email,
@@ -36,4 +37,18 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
   },
+  callbacks: {
+    // Put user.id into the JWT when signing in
+    async jwt({ token, user }) {
+      if (user) token.id = user.id;
+      return token;
+    },
+
+    // Expose token.id on the session object
+    async session({ session, token }) {
+      if (session.user) session.user.id = token.id as string;
+      return session;
+    },
+  },
 };
+
