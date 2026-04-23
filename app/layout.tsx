@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/sonner';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -19,6 +20,9 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'Bookmark Manager',
+  icons: {
+    icon: '/favicon.png',
+  },
   description: 'Manage personal bookmarks at one place',
 };
 
@@ -40,7 +44,11 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        <Toaster /> {children}
+        {/* SessionProvider must wrap your entire app.
+          It stores the session in React context so all child components can access it without prop drilling. */}
+        <SessionProvider>
+          <Toaster /> {children}
+        </SessionProvider>
       </body>
     </html>
   );
