@@ -17,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { toast } from 'sonner';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
@@ -42,6 +43,7 @@ const RegisterPage = () => {
 
     try {
       await axios.post('/api/register', { name, email, passowrd });
+      toast.success('Registered successfully');
 
       // Success! Redirect to login page so the user can sign in
       router.push('/login');
@@ -58,6 +60,7 @@ const RegisterPage = () => {
       } else {
         // This catches network errors (e.g. no internet, server down)
         setError('Something went wrong. Please try again.');
+        toast.error('Something went wrong. Please try again.');
       }
     } finally {
       // Always turn off loading spinner, whether success or failure

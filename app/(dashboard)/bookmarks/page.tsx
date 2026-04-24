@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import BookmarkCard from '../_components/bookmark-card';
+import BookmarkCard from '../../../components/BookmarkCard';
 import axios from 'axios';
 
 // const sample_data = [

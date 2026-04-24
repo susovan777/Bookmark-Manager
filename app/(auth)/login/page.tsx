@@ -13,10 +13,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import Link from 'next/link';
+import { toast } from 'sonner';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -45,11 +46,13 @@ const LoginPage = () => {
     if (result?.error) {
       // NextAuth returns "CredentialsSignin" on wrong email/password
       setError('Invalid email or password');
+      toast.error(error);
       return;
     }
 
     // Login successful — send user to the dashboard (root page)
     router.push('/dashboard');
+    toast.success('Logged in succesfully');
 
     // refresh() forces Next.js to re-fetch server data
     // so the session is immediately available on the dashboard

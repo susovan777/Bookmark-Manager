@@ -1,10 +1,10 @@
 // bookmark-manager/app/layout.tsx
+
 import './globals.css';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
-import { Toaster } from '@/components/ui/sonner';
+import AuthProvider from '@/components/AuthProvider';
 import { Geist, Geist_Mono, Inter } from 'next/font/google';
-import { SessionProvider } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -44,11 +44,11 @@ export default function RootLayout({
       )}
     >
       <body className="min-h-full flex flex-col">
-        {/* SessionProvider must wrap your entire app.
-          It stores the session in React context so all child components can access it without prop drilling. */}
-        <SessionProvider>
-          <Toaster /> {children}
-        </SessionProvider>
+        {/* AuthProvider is a Client Component wrapping the whole app.
+            This gives all child components access to:
+            - Session (via useSession hook)
+            - Toast notifications */}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
