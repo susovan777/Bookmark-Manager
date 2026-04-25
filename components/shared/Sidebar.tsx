@@ -16,7 +16,7 @@ const Sidebar = () => {
 
   return (
     <div className="h-full p-4">
-      <h2 className="text-lg font-semibold mb-6">Markflow</h2>
+      <h2 className="text-lg font-semibold mb-6">Linkmark</h2>
 
       <nav className="space-y-2 ">
         {links.map((link) => {
