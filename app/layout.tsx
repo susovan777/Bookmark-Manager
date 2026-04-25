@@ -19,7 +19,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Bookmark Manager',
+  title: 'Linkmark | Bookmark Manager',
   icons: {
     icon: '/favicon.png',
   },

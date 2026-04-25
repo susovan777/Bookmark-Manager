@@ -4,6 +4,7 @@ import { compare } from 'bcrypt-ts';
 import { NextAuthOptions } from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
+// Ref: https://next-auth.js.org/configuration/providers/credentials
 export const authOptions: NextAuthOptions = {
   providers: [
     Credentials({
