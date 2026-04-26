@@ -1,86 +1,112 @@
-'use client';
+// Path: components\BookmarkCard.tsx
+// 'use client' because we handle onClick events (delete button)
+'use client'
 
-import axios from 'axios';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MoreVertical } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Card, CardContent } from '@/components/ui/card';
+import { toast } from 'sonner'
+import { useState } from 'react'
+import { Bookmark } from '@/types'
+import axios, { AxiosError } from 'axios'
+import { ExternalLink, Trash2, Globe } from 'lucide-react'
 
-type Bookmark = { id: string; title: string; url: string; favicon: string };
+// Imported shared Bookmark type — no more `any`!
+type BookmarkCardProps = {
+  bookmark: Bookmark
+  // onDelete tells the parent page to remove this card from its list after a successful delete — we pass the id back up
+  onDelete: (id: string) => void
+}
 
-const BookmarkCard = ({ bookmark }: { bookmark: Bookmark }) => {
-  const router = useRouter();
-  let isDeleting = false;
+const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
+  // Track loading state on the delete button so it shows a spinner
+  const [isDeleting, setIsDeleting] = useState(false)
 
-  const handleDelete = async (e: any) => {
-    e.preventDefault();
-    e.stopPropagation();
-
-    if (isDeleting) return; // 🔥 prevent double call
-    isDeleting = true;
+  const handleDelete = async () => {
+    setIsDeleting(true)
 
     try {
-      console.log(bookmark.id);
-      await axios.delete(`/api/bookmarks/789`);
-      toast('Bookmark deleted', { position: 'bottom-right' });
-    } catch (error) {
-      console.error('Failed to delete bookmark:', error);
-      toast.error('Failed to delete bookmark');
-    }
+      // DELETE /api/bookmarks/:id
+      await axios.delete(`/api/bookmarks/${bookmark.id}`)
 
-    // Refresh the current page
-    router.refresh();
-  };
+      // Tell the parent to remove this card from the UI
+      onDelete(bookmark.id)
+
+      toast.success('Bookmark deleted')
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>
+      toast.error(error.response?.data?.error ?? 'Failed to delete')
+    } finally {
+      setIsDeleting(false)
+    }
+  }
+
+  // Extract hostname for display e.g. "github.com" from "https://github.com/..."
+  let hostname = ''
+  try {
+    hostname = new URL(bookmark.url).hostname.replace('www.', '')
+  } catch {
+    hostname = bookmark.url
+  }
 
   return (
-    <Card className="relative rounded-sm cursor-pointer group hover:shadow-md hover:-translate-y-1 transition-all duration-200 hover:scale-[1.02]">
-      {/* Menu icon */}
-      <div className="absolute top-3 right-3 z-10">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <MoreVertical className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
-          </DropdownMenuTrigger>
+    <div className="group relative flex flex-col gap-3 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 hover:border-white/20 transition-all duration-200">
 
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500" onClick={handleDelete}>
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
+      {/* Top row: favicon + title + external link */}
+      <div className="flex items-start gap-3">
 
-      <CardContent className="p-4">
-        <Link
+        {/* Favicon */}
+        <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
+          {bookmark.favicon ? (
+            <img
+              src={bookmark.favicon}
+              alt={bookmark.title}
+              className="w-5 h-5"
+              // If favicon fails to load, show a globe icon instead
+              onError={(e) => {
+                e.currentTarget.style.display = 'none'
+                // Show the fallback Globe icon
+                e.currentTarget.nextElementSibling?.removeAttribute('hidden')
+              }}
+            />
+          ) : null}
+          {/* Fallback icon — hidden by default, shown if favicon fails */}
+          {/* <Globe className="w-4 h-4 text-white/30" hidden={!!bookmark.favicon} /> */}
+        </div>
+
+        {/* Title + URL */}
+        <div className="flex-1 min-w-0">
+          <p className="text-sm font-medium text-white truncate leading-tight">
+            {bookmark.title}
+          </p>
+          <p className="text-xs text-white/40 truncate mt-0.5">{hostname}</p>
+        </div>
+
+        {/* External link — opens URL in new tab */}
+        <a
           href={bookmark.url}
           target="_blank"
-          className="flex items-start gap-3"
+          rel="noopener noreferrer"
+          // noopener noreferrer is a security best practice for target="_blank"
+          // It prevents the new tab from accessing your page via window.opener
+          className="text-white/20 hover:text-amber-400 transition-colors shrink-0 mt-0.5"
+          aria-label={`Open ${bookmark.title}`}
         >
-          {/* Favicon */}
-          <img
-            src={bookmark.favicon}
-            alt={bookmark.title}
-            className="w-10 h-10 rounded-md"
-          />
+          <ExternalLink className="w-4 h-4" />
+        </a>
+      </div>
 
-          {/* Content */}
-          <div className="flex-1 min-w-0">
-            <h3 className="text-sm font-medium truncate">{bookmark.title}</h3>
-            <p className="text-xs text-muted-foreground truncate">
-              {bookmark.url}
-            </p>
-          </div>
-        </Link>
-      </CardContent>
-    </Card>
-  );
-};
+      {/* Delete button — appears on hover */}
+      <div className="flex justify-end opacity-0 group-hover:opacity-100 transition-opacity">
+        <button
+          onClick={handleDelete}
+          disabled={isDeleting}
+          className="flex items-center gap-1.5 text-xs text-white/30 hover:text-red-400 transition-colors disabled:opacity-50"
+          aria-label="Delete bookmark"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          {isDeleting ? 'Deleting...' : 'Delete'}
+        </button>
+      </div>
+    </div>
+  )
+}
 
-export default BookmarkCard;
+export default BookmarkCard
