@@ -4,10 +4,13 @@ import NextAuth from 'next-auth';
 import { compare } from 'bcrypt-ts';
 import { ZodError } from 'zod';
 import { signInSchema } from './zod';
+import authConfig from '../auth.config';
 import Credentials from 'next-auth/providers/credentials';
 
 // Ref: https://authjs.dev/getting-started/installation?framework=pnpm#configure
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  ...authConfig, // spread all the edge-safe options (pages, callbacks, etc.)
+
   providers: [
     Credentials({
       name: 'Credentials',
@@ -68,8 +71,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: '/login',
   },
   callbacks: {
+    ...authConfig.callbacks, // authorized callback from auth.config.ts
+
     // jwt() runs when a token is created or updated
     // We store user.id in the token so we can access it later
+    // Ref: https://authjs.dev/guides/extending-the-session#with-jwt
     async jwt({ token, user }) {
       if (user) token.id = user.id;
       return token;
