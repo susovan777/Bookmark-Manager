@@ -27,7 +27,7 @@ import { Button } from '@/components/ui/button';
 const RegisterPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [passowrd, setPassword] = useState('');
+  const [password, setPassword] = useState('');
 
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -42,9 +42,15 @@ const RegisterPage = () => {
     setError(''); // clear any previous error
 
     try {
-      await axios.post('/api/register', { name, email, passowrd });
+      await axios.post('/api/register', {
+        name: name,
+        email: email,
+        password: password,
+      });
       toast.success('Registered successfully');
 
+      console.log(email, password);
+      
       // Success! Redirect to login page so the user can sign in
       router.push('/login');
     } catch (err) {
@@ -56,6 +62,7 @@ const RegisterPage = () => {
       // error.response.data: The actual body of the response
       // error.response.data.error: The specific key where I stored error message in Next.js API route
       if (error.response?.data?.error) {
+        console.error(error);
         setError(error.response.data.error);
       } else {
         // This catches network errors (e.g. no internet, server down)
@@ -111,7 +118,7 @@ const RegisterPage = () => {
               required
               id="password"
               type="password"
-              value={passowrd}
+              value={password}
               placeholder="Minimum 6 characters"
               onChange={(e) => setPassword(e.target.value)}
             />

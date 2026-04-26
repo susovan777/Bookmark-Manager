@@ -48,6 +48,8 @@ export const POST = async (req: Request) => {
       data: { name: name || null, email, password: hashedPassword },
     });
 
+    console.log("✅ User registerd successfully");
+    
     // Don't return the password hash in the response — security best practice
     return Response.json(
       {

@@ -68,7 +68,7 @@ export const GET = async () => {
     const session = await auth();
 
     if (!session?.user) {
-      return Response.json({ error: 'Unauthorized' }, { status: 500 });
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const bookmarks = await db.bookmark.findMany({

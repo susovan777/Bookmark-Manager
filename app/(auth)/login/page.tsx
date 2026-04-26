@@ -35,6 +35,7 @@ const LoginPage = () => {
     // signIn() from next-auth/react calls our Credentials provider.
     // redirect: false means "don't auto-redirect — let me handle it"
     // so we can show an error message if login fails.
+    // Ref: https://authjs.dev/getting-started/authentication/credentials?framework=Next.js%2520%28Client%29#signin-form
     const result = await signIn('credentials', {
       email,
       password,
@@ -51,13 +52,14 @@ const LoginPage = () => {
     }
 
     // Login successful — send user to the dashboard (root page)
-    router.push('/dashboard');
+    router.push('/bookmarks');
     toast.success('Logged in succesfully');
 
     // refresh() forces Next.js to re-fetch server data
     // so the session is immediately available on the dashboard
     router.refresh();
   };
+
   return (
     <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
