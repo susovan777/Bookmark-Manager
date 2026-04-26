@@ -1,19 +1,19 @@
 // app\api\bookmarks\[id]\route.ts
 import { db } from '@/lib/db';
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/lib/auth';
 
 export const DELETE = async (
   req: Request,
   context: { params: Promise<{ id: string }> }
 ) => {
   try {
-    const session = await getServerSession(authOptions);
-    const { id } = await context.params;
+    const session = await auth();
 
     if (!session?.user) {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    const { id } = await context.params;
 
     console.log('Deleting ID: ', id);
 

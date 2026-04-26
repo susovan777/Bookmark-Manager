@@ -1,8 +1,7 @@
 // Bookmark-Manager\app\api\bookmarks\route.ts
+import { auth } from '@/lib/auth';
 import { db } from '@/lib/db';
-import { authOptions } from '@/lib/auth';
 import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth/next';
 
 /**
  * Creates a new bookmark for the user.
@@ -18,17 +17,20 @@ import { getServerSession } from 'next-auth/next';
  */
 export const POST = async (req: NextRequest) => {
   try {
+    // auth() replaces getServerSession(authOptions) in Auth.js v5
+    // It reads the session from the JWT cookie automatically
+    const session = await auth();
+
+    // if (!session || !session.user) - if no session or session.user
+    if (!session?.user) {
+      return Response.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const body = await req.json();
     const { title, url } = body;
-    const session = await getServerSession(authOptions);
 
     if (!url) {
       return Response.json({ error: 'URL is required' }, { status: 400 });
-    }
-
-    if (!session || !session.user) {
-      // (!session?.user)
-      return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // favicon auto generate
@@ -63,7 +65,7 @@ export const POST = async (req: NextRequest) => {
  */
 export const GET = async () => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session?.user) {
       return Response.json({ error: 'Unauthorized' }, { status: 500 });
