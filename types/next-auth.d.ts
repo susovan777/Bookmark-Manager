@@ -7,18 +7,22 @@ declare module 'next-auth' {
   interface Session {
     user: {
       id: string;
+      name: string;
     } & DefaultSession['user'];
   }
 
   // The shape of the user object returned in the OAuth providers or Credentials `authorize` callback.
   interface User {
-    id?: string;
+    id: string;
+    name: string;
+    email: string;
   }
 }
 
 declare module 'next-auth/jwt' {
   // Returned by the `jwt` callback and `getToken`, when using JWT sessions
   interface JWT {
-    idToken?: string;
+    id: string;
+    name: string;
   }
 }

@@ -48,6 +48,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           // Step 4: Return the user object — it flows into the JWT token
           return {
             id: user.id,
+            name: user.name ?? '', // must return a string
             email: user.email,
           };
         } catch (error) {
@@ -77,14 +78,20 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     // We store user.id in the token so we can access it later
     // Ref: https://authjs.dev/guides/extending-the-session#with-jwt
     async jwt({ token, user }) {
-      if (user) token.id = user.id;
+      if (user) {
+        token.id = user.id;
+        token.name = user.name;
+      }
       return token;
     },
 
     // session() runs whenever a session is checked (e.g. via auth() or useSession())
     // We copy token.id onto session.user so route handlers can use session.user.id
     async session({ session, token }) {
-      if (session.user) session.user.id = token.id as string;
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.name = token.name as string;
+      }
       return session;
     },
   },
