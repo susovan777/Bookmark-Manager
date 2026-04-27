@@ -27,7 +27,7 @@ const LoginPage = () => {
 
   const router = useRouter();
 
-  const handleSubmit = async (e: React.SubmitEvent) => {
+  const handleLogin = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -67,7 +67,7 @@ const LoginPage = () => {
         <CardDescription>Sign in to your account</CardDescription>
       </CardHeader>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleLogin}>
         <CardContent className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>

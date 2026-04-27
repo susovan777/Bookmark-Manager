@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { BookMarked } from 'lucide-react';
+import Image from 'next/image';
+import logo from '../../public/bookmark.png';
 
 const Footer = () => {
   return (
@@ -9,10 +10,8 @@ const Footer = () => {
           {/* brand col */}
           <div className="col-span-2">
             <Link href="/" className="flex items-center gap-2.5 mb-4">
-              <div className="w-7 h-7 bg-amber-400 rounded-lg flex items-center justify-center">
-                <BookMarked className="w-4 h-4 text-black" strokeWidth={2.5} />
-              </div>
-              <span className="font-display text-base text-amber-50">
+              <Image src={logo} alt="Bookmark Logo" width={20} height={20} />
+              <span className="font-display text-base text-violet-50">
                 Linkmark
               </span>
             </Link>
@@ -25,7 +24,7 @@ const Footer = () => {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 bg-[#0F0E1C] border border-[#1A1930] rounded-lg flex items-center justify-center text-[#6B6880] hover:text-amber-300 transition-colors"
+                className="w-8 h-8 bg-[#0F0E1C] border border-[#1A1930] rounded-lg flex items-center justify-center text-[#6B6880] hover:text-violet-300 transition-colors"
               >
                 {/* <Twitter className="w-3.5 h-3.5" /> */}
               </a>
@@ -33,7 +32,7 @@ const Footer = () => {
                 href="https://github.com"
                 target="_blank"
                 rel="noreferrer"
-                className="w-8 h-8 bg-[#0F0E1C] border border-[#1A1930] rounded-lg flex items-center justify-center text-[#6B6880] hover:text-amber-300 transition-colors"
+                className="w-8 h-8 bg-[#0F0E1C] border border-[#1A1930] rounded-lg flex items-center justify-center text-[#6B6880] hover:text-violet-300 transition-colors"
               >
                 {/* <Github className="w-3.5 h-3.5" /> */}
               </a>
@@ -64,7 +63,7 @@ const Footer = () => {
                   <li key={l}>
                     <Link
                       href="#"
-                      className="text-sm text-[#7B7890] hover:text-amber-200 transition-colors"
+                      className="text-sm text-[#7B7890] hover:text-violet-200 transition-colors"
                     >
                       {l}
                     </Link>

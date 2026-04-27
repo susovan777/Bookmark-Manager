@@ -8,8 +8,8 @@ const FEATURES = [
     icon: Zap,
     title: 'One-click capture',
     desc: 'Save any page in under a second. Browser extension, mobile share sheet, or paste a URL — Linkmark works wherever you do.',
-    accent: 'from-amber-400/20 to-amber-400/0',
-    iconColor: 'text-amber-400',
+    accent: 'from-violet-400/20 to-violet-400/0',
+    iconColor: 'text-violet-400',
     tag: 'Speed',
   },
   {
@@ -48,8 +48,8 @@ const FEATURES = [
     icon: Sparkles,
     title: 'AI-powered summaries',
     desc: 'Linkmark automatically summarises saved pages so you remember why you saved them — even months later.',
-    accent: 'from-amber-400/20 to-amber-400/0',
-    iconColor: 'text-amber-400',
+    accent: 'from-violet-400/20 to-violet-400/0',
+    iconColor: 'text-violet-400',
     tag: 'AI',
   },
 ];
@@ -60,10 +60,10 @@ const Features = () => {
       <div className="max-w-6xl mx-auto">
         {/* section header */}
         <div className="text-center mb-16">
-          <Badge className="mb-4 bg-amber-400/10 text-amber-400 border-amber-400/20 hover:bg-amber-400/10">
+          <Badge className="mb-4 bg-violet-400/10 text-violet-400 border-violet-400/20 hover:bg-violet-400/10">
             Features
           </Badge>
-          <h2 className="font-display text-4xl md:text-5xl text-amber-50 mb-4">
+          <h2 className="font-display text-4xl md:text-5xl text-violet-50 mb-4">
             Everything your links deserve
           </h2>
           <p className="text-[#9E9AB0] max-w-xl mx-auto">

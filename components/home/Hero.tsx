@@ -7,9 +7,9 @@ const Hero = () => {
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center dot-grid pt-24 pb-16 px-6 overflow-hidden">
       {/* ambient orbs */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-amber-400/6 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-violet-400/6 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] bg-violet-600/8 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-amber-600/6 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/3 right-1/4 w-[300px] h-[300px] bg-violet-600/6 rounded-full blur-[100px] pointer-events-none" />
 
       {/* pill badge */}
       <div className="reveal reveal-delay-1 mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/20 bg-amber-400/5 text-amber-300 text-sm shimmer">
@@ -19,10 +19,9 @@ const Hero = () => {
       </div>
 
       {/* headline */}
-      <h1 className="reveal reveal-delay-2 font-display text-center text-5xl md:text-7xl lg:text-8xl text-amber-50 leading-[1.05] max-w-4xl mb-6 glow-text">
+      <h1 className="reveal reveal-delay-2 font-display text-center text-5xl md:text-7xl lg:text-8xl text-violet-50 leading-[1.05] max-w-4xl mb-6 glow-text">
         Your links,
         <span className="block italic text-amber-400">
-          {' '}
           beautifully organized.
         </span>
       </h1>
@@ -38,7 +37,7 @@ const Hero = () => {
       <div className="reveal reveal-delay-4 flex flex-col sm:flex-row gap-3 mb-16">
         <Link
           href="/register"
-          className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-amber-400 hover:bg-amber-300 text-black font-semibold rounded-xl transition-all glow-amber text-sm"
+          className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-violet-400 hover:bg-violet-300 text-black font-semibold rounded-xl transition-all glow-violet text-sm"
         >
           Start for free
           <ArrowRight className="w-4 h-4" />

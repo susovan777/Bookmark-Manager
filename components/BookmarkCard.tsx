@@ -1,57 +1,55 @@
 // Path: components\BookmarkCard.tsx
 // 'use client' because we handle onClick events (delete button)
-'use client'
+'use client';
 
-import { toast } from 'sonner'
-import { useState } from 'react'
-import { Bookmark } from '@/types'
-import axios, { AxiosError } from 'axios'
-import { ExternalLink, Trash2, Globe } from 'lucide-react'
+import { toast } from 'sonner';
+import { useState } from 'react';
+import { Bookmark } from '@/types';
+import axios, { AxiosError } from 'axios';
+import { ExternalLink, Trash2, Globe } from 'lucide-react';
 
 // Imported shared Bookmark type — no more `any`!
 type BookmarkCardProps = {
-  bookmark: Bookmark
+  bookmark: Bookmark;
   // onDelete tells the parent page to remove this card from its list after a successful delete — we pass the id back up
-  onDelete: (id: string) => void
-}
+  onDelete: (id: string) => void;
+};
 
 const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
   // Track loading state on the delete button so it shows a spinner
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = async () => {
-    setIsDeleting(true)
+    setIsDeleting(true);
 
     try {
       // DELETE /api/bookmarks/:id
-      await axios.delete(`/api/bookmarks/${bookmark.id}`)
+      await axios.delete(`/api/bookmarks/${bookmark.id}`);
 
       // Tell the parent to remove this card from the UI
-      onDelete(bookmark.id)
+      onDelete(bookmark.id);
 
-      toast.success('Bookmark deleted')
+      toast.success('Bookmark deleted');
     } catch (err) {
-      const error = err as AxiosError<{ error: string }>
-      toast.error(error.response?.data?.error ?? 'Failed to delete')
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error.response?.data?.error ?? 'Failed to delete');
     } finally {
-      setIsDeleting(false)
+      setIsDeleting(false);
     }
-  }
+  };
 
   // Extract hostname for display e.g. "github.com" from "https://github.com/..."
-  let hostname = ''
+  let hostname = '';
   try {
-    hostname = new URL(bookmark.url).hostname.replace('www.', '')
+    hostname = new URL(bookmark.url).hostname.replace('www.', '');
   } catch {
-    hostname = bookmark.url
+    hostname = bookmark.url;
   }
 
   return (
     <div className="group relative flex flex-col gap-3 p-4 rounded-xl border border-white/10 bg-white/5 hover:bg-white/8 hover:border-white/20 transition-all duration-200">
-
       {/* Top row: favicon + title + external link */}
       <div className="flex items-start gap-3">
-
         {/* Favicon */}
         <div className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center shrink-0 overflow-hidden">
           {bookmark.favicon ? (
@@ -61,9 +59,9 @@ const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
               className="w-5 h-5"
               // If favicon fails to load, show a globe icon instead
               onError={(e) => {
-                e.currentTarget.style.display = 'none'
+                e.currentTarget.style.display = 'none';
                 // Show the fallback Globe icon
-                e.currentTarget.nextElementSibling?.removeAttribute('hidden')
+                e.currentTarget.nextElementSibling?.removeAttribute('hidden');
               }}
             />
           ) : null}
@@ -86,7 +84,7 @@ const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
           rel="noopener noreferrer"
           // noopener noreferrer is a security best practice for target="_blank"
           // It prevents the new tab from accessing your page via window.opener
-          className="text-white/20 hover:text-amber-400 transition-colors shrink-0 mt-0.5"
+          className="text-white/20 hover:text-violet-400 transition-colors shrink-0 mt-0.5"
           aria-label={`Open ${bookmark.title}`}
         >
           <ExternalLink className="w-4 h-4" />
@@ -106,7 +104,7 @@ const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookmarkCard
+export default BookmarkCard;

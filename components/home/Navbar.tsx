@@ -42,7 +42,7 @@ const Navbar = () => {
             <Link
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="hover:text-amber-200 transition-colors"
+              className="hover:text-violet-200 transition-colors"
             >
               {item}
             </Link>
@@ -53,13 +53,13 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-3">
           <Link
             href="/login"
-            className="text-sm text-[#9E9AB0] hover:text-amber-200 transition-colors px-4 py-2"
+            className="text-sm text-[#9E9AB0] hover:text-violet-200 transition-colors px-4 py-2"
           >
             Sign in
           </Link>
           <Link
             href="/register"
-            className="text-sm font-medium bg-amber-400 hover:bg-amber-300 text-black px-5 py-2 rounded-lg transition-colors glow-amber-sm"
+            className="text-sm font-medium bg-violet-400 hover:bg-violet-300 text-black px-5 py-2 rounded-lg transition-colors glow-violet-sm"
           >
             Get started free
           </Link>
@@ -67,7 +67,7 @@ const Navbar = () => {
 
         {/* mobile menu button */}
         <button
-          className="md:hidden text-[#9E9AB0] hover:text-amber-200"
+          className="md:hidden text-[#9E9AB0] hover:text-violet-200"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -81,7 +81,7 @@ const Navbar = () => {
             <Link
               key={item}
               href={`#${item.toLowerCase()}`}
-              className="text-sm text-[#9E9AB0] hover:text-amber-200"
+              className="text-sm text-[#9E9AB0] hover:text-violet-200"
               onClick={() => setMenuOpen(false)}
             >
               {item}
@@ -96,7 +96,7 @@ const Navbar = () => {
             </Link>
             <Link
               href="/register"
-              className="text-sm font-medium text-center bg-amber-400 text-black py-2.5 rounded-lg"
+              className="text-sm font-medium text-center bg-violet-400 text-black py-2.5 rounded-lg"
             >
               Get started free
             </Link>

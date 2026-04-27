@@ -21,7 +21,7 @@ const MockBrowser = () => {
   return (
     <div className="relative w-full max-w-[780px] mx-auto select-none">
       {/* glow behind */}
-      <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-radial from-amber-400 via-violet-600 to-transparent scale-110" />
+      <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-radial from-violet-400 via-violet-600 to-transparent scale-110" />
 
       {/* browser chrome */}
       <div className="rounded-2xl overflow-hidden border border-[#2A2840] shadow-[0_40px_120px_rgba(0,0,0,0.8)]">
@@ -46,7 +46,7 @@ const MockBrowser = () => {
           <div className="w-52 bg-[#0C0B18] border-r border-[#1A1930] flex flex-col py-4 px-3 gap-1 shrink-0">
             <div className="flex items-center gap-2 px-2 mb-4">
               <Image src={logo} alt="Bookmark Logo" width={20} height={20} />
-              <span className="text-sm font-semibold text-amber-50">
+              <span className="text-sm font-semibold text-violet-50">
                 Linkmark
               </span>
             </div>
@@ -66,7 +66,7 @@ const MockBrowser = () => {
                 key={label}
                 className={`flex items-center justify-between px-2 py-1.5 rounded-lg text-xs cursor-pointer transition-colors ${
                   active
-                    ? 'bg-amber-400/10 text-amber-300'
+                    ? 'bg-violet-400/10 text-violet-300'
                     : 'text-[#7B7890] hover:text-[#B0ADCA]'
                 }`}
               >
@@ -76,7 +76,7 @@ const MockBrowser = () => {
                 </div>
                 <span
                   className={`text-[10px] ${
-                    active ? 'text-amber-400/70' : 'text-[#4A4860]'
+                    active ? 'text-violet-400/70' : 'text-[#4A4860]'
                   }`}
                 >
                   {count}
@@ -113,7 +113,7 @@ const MockBrowser = () => {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="px-3 py-1 bg-amber-400 rounded-lg text-[11px] font-semibold text-black cursor-pointer">
+                <div className="px-3 py-1 bg-violet-400 rounded-lg text-[11px] font-semibold text-black cursor-pointer">
                   + Add
                 </div>
               </div>
@@ -160,7 +160,7 @@ const MockBrowser = () => {
                       <Globe className="w-3.5 h-3.5 text-[#5A5870]" />
                     </div>
                     {bm.fav && (
-                      <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+                      <Star className="w-3.5 h-3.5 text-violet-400 fill-violet-400" />
                     )}
                   </div>
                   <p className="text-xs text-[#D0CEEA] font-medium leading-snug mb-1 line-clamp-2">
