@@ -1,37 +1,43 @@
 // Path: app\(dashboard)\bookmarks\page.tsx
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import axios, { AxiosError } from 'axios'
-import BookmarkCard from '@/components/BookmarkCard'
-import { Bookmark } from '@/types'
+import { useEffect, useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import BookmarkCard from '@/components/bookmark/BookmarkCard';
+import { Bookmark } from '@/types';
+import AddBookmarkDialog from '@/components/bookmark/AddBookmarkDialog';
 // Use our shared type instead of `any`
 
 const BookmarkPage = () => {
-  const [bookmarks, setBookmarks] = useState<Bookmark[]>([])
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   // `error` state lets us show a message if the fetch fails
-  const [error, setError] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBookmarks = async () => {
       try {
-        const res = await axios.get<Bookmark[]>('/api/bookmarks')
+        const res = await axios.get<Bookmark[]>('/api/bookmarks');
         // axios.get<Bookmark[]> tells TypeScript what shape the response is
-        setBookmarks(res.data)
+        setBookmarks(res.data);
       } catch (err) {
-        const error = err as AxiosError<{ error: string }>
-        setError(error.response?.data?.error ?? 'Failed to load bookmarks')
+        const error = err as AxiosError<{ error: string }>;
+        setError(error.response?.data?.error ?? 'Failed to load bookmarks');
       }
-    }
+    };
 
-    fetchBookmarks()
-  }, [])
+    fetchBookmarks();
+  }, []);
+
+  // Prepend new bookmark to the top of the list — no re-fetch needed
+  const handleAdd = (bookmark: Bookmark) => {
+    setBookmarks((prev) => [bookmark, ...prev]);
+  };
 
   // Called by BookmarkCard after a successful delete.
   // We filter out the deleted bookmark from state — no need to re-fetch.
   const handleDelete = (id: string) => {
-    setBookmarks((prev) => prev.filter((b) => b.id !== id))
-  }
+    setBookmarks((prev) => prev.filter((b) => b.id !== id));
+  };
 
   // Show error if fetch failed
   if (error) {
@@ -40,7 +46,7 @@ const BookmarkPage = () => {
         <p className="text-lg font-medium text-red-400">Something went wrong</p>
         <p className="text-sm text-white/40 mt-1">{error}</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -62,10 +68,13 @@ const BookmarkPage = () => {
           <div className="w-14 h-14 rounded-2xl bg-violet-400/10 flex items-center justify-center mb-4">
             <span className="text-2xl">🔖</span>
           </div>
-          <p className="text-lg font-medium">No bookmarks yet</p>
-          <p className="text-sm text-white/40 mt-1">
-            Click "Add Bookmark" to save your first link
-          </p>
+          <div className='mb-4'>
+            <p className="text-lg font-medium">No bookmarks yet</p>
+            <p className="text-sm text-white/40 mt-1">
+              Click "Add Bookmark" to save your first link
+            </p>
+          </div>
+          <AddBookmarkDialog onAdd={handleAdd} />
         </div>
       ) : (
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
@@ -80,7 +89,7 @@ const BookmarkPage = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default BookmarkPage
+export default BookmarkPage;
