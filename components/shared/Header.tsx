@@ -7,8 +7,15 @@ import { useSession } from 'next-auth/react';
 import { Search, Plus } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import AddBookmarkDialog from '../bookmark/AddBookmarkDialog';
+import { Bookmark } from '@/types';
 
-const Header = () => {
+type HeaderProps = {
+  // Parent page passes this so newly added bookmarks appear instantly
+  onAdd?: (bookmark: Bookmark) => void;
+};
+
+const Header = ({ onAdd }: HeaderProps) => {
   const [search, setSearch] = useState('');
   const { data: session } = useSession();
 
@@ -28,20 +35,12 @@ const Header = () => {
 
       <div className="flex items-center gap-3 shrink-0">
         {session?.user?.name && (
-          <span className="hidden lg:block text-sm text-white/40">
+          <span className="hidden lg:block text-sm text-white">
             Hey, {session.user.name.split(' ')[0]} 👋
           </span>
         )}
 
-        {/* Violet accent button */}
-        <Button
-          size="sm"
-          className="bg-violet-500 hover:bg-violet-400 text-white font-medium gap-2 shadow-lg shadow-violet-500/20 cursor-pointer"
-        >
-          <Plus className="w-4 h-4" />
-          <span className="hidden sm:inline">Add Bookmark</span>
-          <span className="sm:hidden">Add</span>
-        </Button>
+        <AddBookmarkDialog onAdd={onAdd ?? (() => {})} />
       </div>
     </div>
   );
