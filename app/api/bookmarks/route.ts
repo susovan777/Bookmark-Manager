@@ -63,7 +63,7 @@ export const POST = async (req: NextRequest) => {
  * * @example
  * // Returns: [{ id: "...", title: "Google", url: "https://google.com", ... }]
  */
-export const GET = async () => {
+export const GET = async (req: NextRequest) => {
   try {
     const session = await auth();
 
@@ -71,8 +71,27 @@ export const GET = async () => {
       return Response.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    // Read the ?q= search query from the URL
+    // e.g. /api/bookmarks?q=github → searchQuery = "github"
+    const { searchParams } = new URL(req.url);
+    const searchQuery = searchParams.get('q')?.trim() ?? '';
+
     const bookmarks = await db.bookmark.findMany({
-      where: { userId: session.user.id },
+      where: {
+        userId: session.user.id,
+        // Only add search filter when query is not empty
+        // If searchQuery is empty, this spreads nothing → returns all bookmarks
+        ...(searchQuery.length > 0 && {
+          OR: [
+            // Search across title, URL, and description
+            // mode: 'insensitive' makes it case-insensitive
+            // e.g. "GitHub" matches "github", "GITHUB", "Github"
+            { title: { contains: searchQuery, mode: 'insensitive' } },
+            { url: { contains: searchQuery, mode: 'insensitive' } },
+            { description: { contains: searchQuery, mode: 'insensitive' } },
+          ],
+        }),
+      },
       orderBy: { createdAt: 'desc' },
     });
 

@@ -43,7 +43,7 @@ const SidebarContent = ({
   return (
     <TooltipProvider delayDuration={0}>
       {/* delayDuration={0} makes tooltips appear instantly — better UX */}
-      <div className="flex flex-col h-full py-4">
+      <div className="flex flex-col h-full w-full py-4">
         {/* Logo */}
         <div className={cn('mb-8', collapsed ? 'px-3' : 'px-4')}>
           <Link

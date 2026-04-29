@@ -17,7 +17,7 @@ const BookmarkLoading = () => {
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="flex flex-col rounded-xl border border-white/10 bg-[#111111] overflow-hidden"
+            className="flex flex-col rounded-sm border border-white/10 bg-[#111111] overflow-hidden"
           >
             {/* Header row */}
             <div className="flex items-start gap-3 p-4 pb-3">
@@ -32,13 +32,13 @@ const BookmarkLoading = () => {
               <Skeleton className="w-5 h-5 rounded bg-white/5" />
             </div>
 
-            {/* Description — only some cards have it */}
-            {i % 3 === 0 && (
+            {/* TODO: Uncomment >> Description — only some cards have it */}
+            {/* {i % 3 === 0 && (
               <div className="px-4 pb-3 space-y-1.5">
                 <Skeleton className="h-3 w-full bg-white/5" />
                 <Skeleton className="h-3 w-4/5 bg-white/5" />
               </div>
-            )}
+            )} */}
 
             {/* Footer */}
             <div className="mt-auto border-t border-white/5 px-4 py-2.5 flex items-center justify-between">

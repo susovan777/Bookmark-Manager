@@ -4,8 +4,6 @@
 // MobileNav is a Client Component imported here — this is the correct pattern.
 import React from 'react';
 import Sidebar from '@/components/shared/Sidebar';
-import Header from '@/components/shared/Header';
-import MobileNav from '@/components/shared/MobileNav';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -22,22 +20,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
-        {/* Header */}
-        <header className="h-16 border-b border-white/10 flex items-center gap-3 px-4 md:px-6 bg-[#111111] shrink-0">
-          {/*
-            Mobile menu button — only visible on mobile (hidden md+).
-            Lives here so it's always accessible in the header.
-          */}
-          <MobileNav />
-
-          {/* Header content (search + add button) */}
-          <Header />
-        </header>
-
         {/* Scrollable page content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a]">
-          {children}
-        </main>
+        <main className="flex-1 overflow-y-auto  bg-[#0a0a0a]">{children}</main>
       </div>
     </div>
   );
