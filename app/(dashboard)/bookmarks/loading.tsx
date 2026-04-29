@@ -1,43 +1,49 @@
 // bookmark-manager/app/(dashboard)/bookmarks/loading.tsx
 
 // Next.js automatically shows this file while the page is loading.
-// It replaces the page content with skeleton placeholders — better UX than a blank screen.
 import { Skeleton } from '@/components/ui/skeleton';
 
 const BookmarkLoading = () => {
   return (
     <div className="space-y-6">
-      {/* Page title skeleton */}
+      {/* Title skeleton */}
       <div className="space-y-2">
         <Skeleton className="h-8 w-48 bg-white/10" />
-        <Skeleton className="h-4 w-24 bg-white/5" />
+        <Skeleton className="h-4 w-20 bg-white/5" />
       </div>
 
-      {/* Bookmark card skeletons — same grid as the real page */}
+      {/* Card skeletons — match the new card structure exactly */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="flex flex-col gap-3 p-4 rounded-xl border border-white/10 bg-white/5"
+            className="flex flex-col rounded-xl border border-white/10 bg-[#111111] overflow-hidden"
           >
-            {/* Top row: favicon + title + link icon */}
-            <div className="flex items-start gap-3">
-              {/* Favicon placeholder */}
-              <Skeleton className="w-9 h-9 rounded-lg bg-white/10 shrink-0" />
-
-              {/* Title + URL placeholders */}
+            {/* Header row */}
+            <div className="flex items-start gap-3 p-4 pb-3">
+              {/* Favicon */}
+              <Skeleton className="w-7 h-7 rounded-md bg-white/10 shrink-0" />
+              {/* Title + domain */}
               <div className="flex-1 space-y-2 pt-0.5">
                 <Skeleton className="h-3.5 w-3/4 bg-white/10" />
                 <Skeleton className="h-3 w-1/2 bg-white/5" />
               </div>
-
-              {/* External link icon placeholder */}
-              <Skeleton className="w-4 h-4 rounded bg-white/5 shrink-0" />
+              {/* Icon buttons */}
+              <Skeleton className="w-5 h-5 rounded bg-white/5" />
             </div>
 
-            {/* Bottom delete button placeholder */}
-            <div className="flex justify-end">
+            {/* Description — only some cards have it */}
+            {i % 3 === 0 && (
+              <div className="px-4 pb-3 space-y-1.5">
+                <Skeleton className="h-3 w-full bg-white/5" />
+                <Skeleton className="h-3 w-4/5 bg-white/5" />
+              </div>
+            )}
+
+            {/* Footer */}
+            <div className="mt-auto border-t border-white/5 px-4 py-2.5 flex items-center justify-between">
               <Skeleton className="h-3 w-16 bg-white/5" />
+              <Skeleton className="w-4 h-4 rounded bg-white/5" />
             </div>
           </div>
         ))}

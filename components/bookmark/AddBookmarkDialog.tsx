@@ -1,5 +1,4 @@
 // Path: components\AddBookmarkForm.tsx
-
 'use client';
 
 import { toast } from 'sonner';
@@ -26,7 +25,7 @@ type addBookmarkFormProps = {
 // URLMetadata is what our /api/link-preview route returns
 type URLMetadata = {
   title: string;
-  deescription: string | null;
+  description: string | null;
   favicon: string | null;
 };
 
@@ -53,6 +52,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
       new URL(url); // throws if invalid URL
     } catch {
       setUrlError('Please enter a valid URL (include https://)');
+      return;
     }
 
     // setUrlError('');
