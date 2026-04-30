@@ -11,4 +11,18 @@ export type Bookmark = {
   description: string | null;
   createdAt: string;
   userId: string;
+  collectionId: string | null;
+};
+
+export type Collection = {
+  id: string;
+  name: string;
+  description: string | null;
+  icon: string | null; // emoji icon e.g. "🎨"
+  color: string | null; // tailwind color string e.g. "violet"
+  createdAt: string;
+  userId: string;
+  _count?: {
+    bookmarks: number; // how many bookmarks in this collection
+  };
 };
