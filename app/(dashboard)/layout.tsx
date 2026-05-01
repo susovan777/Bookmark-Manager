@@ -3,6 +3,7 @@
 // Server Component — no 'use client' needed.
 // MobileNav is a Client Component imported here — this is the correct pattern.
 import React from 'react';
+import Header from '@/components/shared/Header';
 import Sidebar from '@/components/shared/Sidebar';
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
@@ -20,8 +21,12 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden min-w-0">
+        <Header />
+
         {/* Scrollable page content */}
-        <main className="flex-1 overflow-y-auto  bg-[#0a0a0a]">{children}</main>
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-[#0a0a0a]">
+          {children}
+        </main>
       </div>
     </div>
   );

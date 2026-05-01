@@ -13,7 +13,7 @@ const BookmarkLoading = () => {
       </div>
 
       {/* Card skeletons — match the new card structure exactly */}
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-4 md:p-6">
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}

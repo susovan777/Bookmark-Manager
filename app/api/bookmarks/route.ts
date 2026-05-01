@@ -75,10 +75,15 @@ export const GET = async (req: NextRequest) => {
     // e.g. /api/bookmarks?q=github → searchQuery = "github"
     const { searchParams } = new URL(req.url);
     const searchQuery = searchParams.get('q')?.trim() ?? '';
+    const collectionId = searchParams.get('collectionId');
 
     const bookmarks = await db.bookmark.findMany({
       where: {
         userId: session.user.id,
+
+        // Filter by collectionId if provided
+        ...(collectionId && { collectionId }),
+
         // Only add search filter when query is not empty
         // If searchQuery is empty, this spreads nothing → returns all bookmarks
         ...(searchQuery.length > 0 && {
