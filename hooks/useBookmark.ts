@@ -89,13 +89,13 @@ export const useBookmarks = () => {
     : bookmarks; // When searchInput is empty, show everything — no filtering
 
   // --- Handlers ---
-  const handleAdd = (bookmark: Bookmark) => {
+  const handleAddBookmark = (bookmark: Bookmark) => {
     // Prepend to master list — appears at top immediately
     setBookmarks((prev) => [bookmark, ...prev]);
   };
 
   // Called by BookmarkCard after a successful delete.
-  const handleDelete = (id: string) => {
+  const handleDeleteBookmark = (id: string) => {
     // We filter out the deleted bookmark from state — no need to re-fetch.
     setBookmarks((prev) => prev.filter((b) => b.id !== id));
   };
@@ -113,7 +113,7 @@ export const useBookmarks = () => {
     setSearchInput, // ← passed to the search input onChange
 
     // Handlers
-    handleAdd,
-    handleDelete,
+    handleAddBookmark,
+    handleDeleteBookmark,
   };
 };
