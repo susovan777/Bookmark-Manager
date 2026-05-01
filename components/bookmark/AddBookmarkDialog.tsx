@@ -15,6 +15,7 @@ import {
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
+import { useCollections } from '@/hooks/useCollections';
 import { Link2, Loader2, Plus, Sparkles, Type } from 'lucide-react';
 
 type addBookmarkFormProps = {
@@ -30,9 +31,12 @@ type URLMetadata = {
 };
 
 const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
+  const { collections } = useCollections();
+
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
+  const [collectionId, setCollectionId] = useState('');
 
   // isFetching: true while we auto-fetch metadata from the URL
   const [isFetching, setIsFetching] = useState(false);
@@ -234,6 +238,34 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
                 Fetching page title...
               </p>
             )}
+          </div>
+
+          {/* Select Collection */}
+          <div className="space-y-1.5">
+            <Label className="text-sm text-white/70">
+              Collection
+              <span className="text-white/30 text-xs font-normal ml-1">
+                (optional)
+              </span>
+            </Label>
+            <select
+              value={collectionId}
+              onChange={(e) => setCollectionId(e.target.value)}
+              className="w-full appearance-none rounded-md bg-white/5 border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+            >
+              <option value="" className="bg-[#0f0f0f] text-white">
+                No collection
+              </option>
+              {collections.map((c) => (
+                <option
+                  key={c.id}
+                  value={c.id}
+                  className="bg-[#0f0f0f] text-white"
+                >
+                  {c.icon} {c.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Action buttons */}
