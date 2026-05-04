@@ -16,7 +16,7 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Button } from '../ui/button';
 import { useCollections } from '@/hooks/useCollections';
-import { Link2, Loader2, Plus, Sparkles, Type } from 'lucide-react';
+import { KeyRound, Link2, Loader2, Plus, Sparkles, Type } from 'lucide-react';
 
 type addBookmarkFormProps = {
   // Called after a bookmark is successfully created
@@ -36,6 +36,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
   const [open, setOpen] = useState(false);
   const [url, setUrl] = useState('');
   const [title, setTitle] = useState('');
+  const [note, setNote] = useState('');
   const [collectionId, setCollectionId] = useState('');
 
   // isFetching: true while we auto-fetch metadata from the URL
@@ -98,6 +99,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
       const res = await axios.post<Bookmark>('/api/bookmarks', {
         url,
         title: title || url, // fallback to URL if title is empty
+        note: note.trim() || null,
       });
 
       // Tell the parent page about the new bookmark
@@ -121,6 +123,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
     setOpen(false);
     setUrl('');
     setTitle('');
+    setNote('');
     setUrlError('');
     setIsFetching(false);
   };
@@ -238,6 +241,31 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
                 Fetching page title...
               </p>
             )}
+          </div>
+
+          <div className="space-y-1.5">
+            <Label
+              htmlFor="note"
+              className="text-sm text-white/70 flex items-center gap-1.5"
+            >
+              <KeyRound className="w-3.5 h-3.5" />
+              Login / Note
+              <span className="text-white/30 text-xs font-normal">
+                (optional)
+              </span>
+            </Label>
+            <Input
+              id="note"
+              type="text"
+              placeholder="e.g. Signed up with john@gmail.com"
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              disabled={isSaving}
+              className="bg-white/5 border-white/10 text-white placeholder:text-white/20 focus-visible:ring-violet-500/50 disabled:opacity-50"
+            />
+            <p className="text-xs text-white/20">
+              Store which account you used — only visible to you
+            </p>
           </div>
 
           {/* Select Collection */}

@@ -2,27 +2,17 @@
 
 'use client';
 
-import { Bookmark } from '@/types';
 import MobileNav from './MobileNav';
 import { useSession } from 'next-auth/react';
 import { Input } from '@/components/ui/input';
 import { Loader2, Search } from 'lucide-react';
-import { useBookmarks } from '@/hooks/useBookmark';
 import AddBookmarkDialog from '../bookmark/AddBookmarkDialog';
-
-type HeaderProps = {
-  // These 3 come from useBookmarks() in the page and are passed down
-  searchInput: string;
-  onSearchChange: (value: string) => void;
-  isSearching: boolean;
-  // Parent page passes this so newly added bookmarks appear instantly
-  onAdd?: (bookmark: Bookmark) => void;
-};
+import { useBookmarksContext } from '@/context/BookmarkContext';
 
 const Header = () => {
   const { data: session } = useSession();
   const { isSearching, searchInput, setSearchInput, handleAddBookmark } =
-    useBookmarks();
+    useBookmarksContext();
 
   return (
     <header className="h-16 border-b border-white/10 flex items-center gap-3 px-4 md:px-6 bg-[#111111] shrink-0 mb-0">
@@ -65,6 +55,7 @@ const Header = () => {
             </span>
           )}
 
+          {/* handleAdd comes from context — updates shared state */}
           <AddBookmarkDialog onAdd={handleAddBookmark ?? (() => {})} />
         </div>
       </div>

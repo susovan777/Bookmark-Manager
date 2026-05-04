@@ -6,13 +6,22 @@ import { toast } from 'sonner';
 import { useState } from 'react';
 import { Bookmark } from '@/types';
 import axios, { AxiosError } from 'axios';
-import { ExternalLink, Trash2, Globe, Pin, Calendar } from 'lucide-react';
+import {
+  ExternalLink,
+  Trash2,
+  Globe,
+  Pin,
+  Calendar,
+  KeyRound,
+} from 'lucide-react';
+import EditBookmarkDialog from './EditBook,arkDialog';
 
 // Imported shared Bookmark type — no more `any`!
 type BookmarkCardProps = {
   bookmark: Bookmark;
   // onDelete tells the parent page to remove this card from its list after a successful delete — we pass the id back up
   onDelete: (id: string) => void;
+  onUpdate: (updated: Bookmark) => void;
 };
 
 // Format date (29 Apr)
@@ -23,7 +32,7 @@ const formatDate = (dateStr: string) => {
   });
 };
 
-const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
+const BookmarkCard = ({ bookmark, onDelete, onUpdate }: BookmarkCardProps) => {
   // Track loading state on the delete button so it shows a spinner
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPinned, setIsPinned] = useState(false);
@@ -95,6 +104,9 @@ const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
 
         {/* Three-dot menu area — open link + delete */}
         <div className="flex items-center gap-1 shrink-0">
+          {/* Edit — always visible (small icon) */}
+          <EditBookmarkDialog bookmark={bookmark} onUpdate={onUpdate} />
+
           {/* External link */}
           <a
             href={bookmark.url}
@@ -133,6 +145,18 @@ const BookmarkCard = ({ bookmark, onDelete }: BookmarkCardProps) => {
         For now we render nothing here — no empty space.
         When ready, map over bookmark.tags and render Badge components.
       */}
+
+      {/* Note / Login ID — shown as a subtle pill if present. */}
+      {bookmark.note && (
+        <div className="px-4 pb-3">
+          <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 w-fit max-w-full">
+            <KeyRound className="w-3 h-3 text-violet-400 shrink-0" />
+            <span className="text-xs text-white/50 truncate">
+              {bookmark.note}
+            </span>
+          </div>
+        </div>
+      )}
 
       {/* ── Card Footer ── */}
       {/*
