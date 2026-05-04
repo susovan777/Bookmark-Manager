@@ -1,5 +1,6 @@
 // Path: context\BookmarkContext.tsx
 
+// Instead custom hook useBookmark()
 'use client';
 
 import { Bookmark } from '@/types';

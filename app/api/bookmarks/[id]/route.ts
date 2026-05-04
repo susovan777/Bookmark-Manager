@@ -15,26 +15,21 @@ export const PATCH = async (req: Request, context: RouteContext) => {
     const { id } = await context.params;
     const body = await req.json();
 
+    // Only update fields that were actually sent in the request body.
     // collectionId can be a string (assign) or null (remove from collection)
-    const { collectionId } = body;
-
-    // If a collectionId is provided, verify it belongs to this user
-    // Prevents user A from assigning their bookmark to user B's collection
-    if (collectionId) {
-      const collection = await db.collection.findFirst({
-        where: { id: collectionId, userId: session.user.id },
-      });
-      if (!collection) {
-        return Response.json(
-          { error: 'Collection not found' },
-          { status: 404 }
-        );
-      }
-    }
+    const { title, url, note, collectionId } = body;
 
     const updated = await db.bookmark.updateMany({
       where: { id, userId: session.user.id },
-      data: { collectionId: collectionId ?? null },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(url !== undefined && { url }),
+        // note can be a string OR null (to clear it) — both are valid
+        ...(note !== undefined && { note: note || null }),
+        ...(collectionId !== undefined && {
+          collectionId: collectionId || null,
+        }),
+      },
     });
 
     if (updated.count === 0) {

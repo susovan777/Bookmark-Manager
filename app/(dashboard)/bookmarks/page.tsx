@@ -2,8 +2,8 @@
 'use client';
 
 import BookmarkLoading from './loading';
-import { useBookmarks } from '@/hooks/useBookmark';
 import BookmarkCard from '@/components/bookmark/BookmarkCard';
+import { useBookmarksContext } from '@/context/BookmarkContext';
 import AddBookmarkDialog from '@/components/bookmark/AddBookmarkDialog';
 
 const BookmarkPage = () => {
@@ -15,7 +15,8 @@ const BookmarkPage = () => {
     searchInput,
     handleAddBookmark,
     handleDeleteBookmark,
-  } = useBookmarks();
+    handleUpdateBookmark,
+  } = useBookmarksContext();
 
   // Full page loading state — only on initial load
   if (isLoading) return <BookmarkLoading />;
@@ -81,6 +82,7 @@ const BookmarkPage = () => {
               bookmark={bookmark}
               onDelete={handleDeleteBookmark}
               // Pass handleDelete so the card can tell this page when it's deleted
+              onUpdate={handleUpdateBookmark}
             />
           ))}
         </div>

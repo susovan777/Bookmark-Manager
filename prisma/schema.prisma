@@ -21,8 +21,8 @@ model User {
   password String
   name     String? // ? means this field is optional (can be NULL)
 
-  accounts Account[]
-  sessions Session[]
+  accounts   Account[]
+  sessions   Session[]
   bookmarks  Bookmark[]
   collection Collection[]
 
@@ -34,6 +34,7 @@ model Bookmark {
   id          String  @id @default(uuid())
   title       String
   url         String
+  note        String?
   favicon     String?
   description String?
 
@@ -41,8 +42,8 @@ model Bookmark {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   collectionId String?
-  collection   Collection?          @relation(fields: [collectionId], references: [id], onDelete: SetNull)
-  createdAt    DateTime             @default(now())
+  collection   Collection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  createdAt    DateTime    @default(now())
 }
 
 // 🟡 Collection
@@ -54,9 +55,9 @@ model Collection {
   color       String?
 
   userId    String
-  user      User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   bookmarks Bookmark[]
-  createdAt DateTime             @default(now())
+  createdAt DateTime   @default(now())
 }
 
 model Account {
