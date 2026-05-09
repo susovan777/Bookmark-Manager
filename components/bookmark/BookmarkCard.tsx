@@ -147,7 +147,7 @@ const BookmarkCard = ({ bookmark, onDelete, onUpdate }: BookmarkCardProps) => {
       */}
 
       {/* Note / Login ID — shown as a subtle pill if present. */}
-      {bookmark.note && (
+      {/* {bookmark.note && (
         <div className="px-4 pb-3">
           <div className="flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-lg px-2.5 py-1.5 w-fit max-w-full">
             <KeyRound className="w-3 h-3 text-violet-400 shrink-0" />
@@ -156,7 +156,7 @@ const BookmarkCard = ({ bookmark, onDelete, onUpdate }: BookmarkCardProps) => {
             </span>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* ── Card Footer ── */}
       {/*

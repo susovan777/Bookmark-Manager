@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Collection } from '@/types';
 import axios, { AxiosError } from 'axios';
-import { Trash2, Bookmark, ChevronRight } from 'lucide-react';
+import { Bookmark, ChevronRight } from 'lucide-react';
 
 type CollectionCardProps = {
   collection: Collection;
@@ -41,38 +41,17 @@ const CollectionCard = ({ collection, onDelete }: CollectionCardProps) => {
   return (
     // The whole card is a link to the collection detail page
     <Link href={`/collections/${collection.id}`}>
-      <div className="group flex flex-col gap-4 p-5 rounded-xl border border-white/10 bg-[#111111] hover:border-violet-500/30 hover:shadow-lg hover:shadow-violet-500/5 transition-all duration-200 cursor-pointer h-full">
-        {/* Header: emoji icon + delete button */}
+      <div className="group relative flex flex-col justify-between p-6 rounded-md border border-white/10 bg-[#1a1a1a] hover:border-white/20 transition-all duration-200 cursor-pointer h-30">
+        {/* Top Section: Title and Icon */}
         <div className="flex items-start justify-between">
-          {/* Large emoji icon */}
-          <div className="w-11 h-11 rounded-xl bg-white/5 flex items-center justify-center text-2xl">
-            {collection.icon ?? '📁'}
-          </div>
-
-          {/* Delete button — appears on hover */}
-          <button
-            onClick={handleDelete}
-            disabled={isDeleting}
-            className="opacity-0 group-hover:opacity-100 w-7 h-7 flex items-center justify-center rounded-md text-white/20 hover:text-red-400 hover:bg-red-400/5 transition-all disabled:opacity-50"
-            aria-label="Delete collection"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-          </button>
-        </div>
-
-        {/* Collection name + description */}
-        <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-white text-sm truncate">
+          <h3 className="text-lg font-semibold text-white truncate pr-2">
             {collection.name}
           </h3>
-          {collection.description && (
-            <p className="text-xs text-white/40 mt-1 line-clamp-2">
-              {collection.description}
-            </p>
-          )}
+
+          <div className="text-xl">{collection.icon ?? '📁'}</div>
         </div>
 
-        {/* Footer: bookmark count + arrow */}
+        {/* Bottom section: Bookmark count and arrow */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-1.5 text-white/30">
             <Bookmark className="w-3.5 h-3.5" />
