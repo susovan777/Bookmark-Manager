@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { Bookmark } from '@/types';
+import { useCollections } from '@/hooks/useCollections';
 
 type EditBookmarkDialogProps = {
   bookmark: Bookmark;
@@ -28,12 +29,14 @@ const EditBookmarkDialog = ({
   bookmark,
   onUpdate,
 }: EditBookmarkDialogProps) => {
+  const { collections } = useCollections();
   const [open, setOpen] = useState(false);
 
   // Pre-fill fields with current bookmark values
   const [title, setTitle] = useState(bookmark.title);
   const [url, setUrl] = useState(bookmark.url);
   const [note, setNote] = useState(bookmark.note ?? '');
+  const [collectionId, setCollectionId] = useState(bookmark.collectionId ?? '');
 
   const [isSaving, setIsSaving] = useState(false);
   const [urlError, setUrlError] = useState('');
@@ -58,6 +61,7 @@ const EditBookmarkDialog = ({
         title: title.trim() || bookmark.url,
         url: url.trim(),
         note: note.trim() || null,
+        collectionId: collectionId || null,
       });
 
       // Tell the parent the bookmark changed — updates shared context state
@@ -77,6 +81,7 @@ const EditBookmarkDialog = ({
     setTitle(bookmark.title);
     setUrl(bookmark.url);
     setNote(bookmark.note ?? '');
+    setCollectionId(bookmark.collectionId ?? '');
     setUrlError('');
     setOpen(false);
   };
@@ -95,7 +100,10 @@ const EditBookmarkDialog = ({
         <Pencil className="w-3.5 h-3.5" />
       </button>
 
-      <DialogContent className="bg-[#111111] border border-white/10 text-white sm:max-w-md [&>button]:text-white/40 [&>button]:hover:text-white">
+      <DialogContent
+        className="bg-[#111111] border border-white/10 text-white sm:max-w-md [&>button]:text-white/40 [&>button]:hover:text-black"
+        // [&>button] targets the default shadcn close (X) button
+      >
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-lg font-semibold">
             <div className="w-7 h-7 rounded-lg bg-violet-500/20 flex items-center justify-center">
@@ -175,6 +183,34 @@ const EditBookmarkDialog = ({
             <p className="text-xs text-white/20">
               Store which account you used — only visible to you
             </p>
+          </div>
+
+          {/* Change Collection */}
+          <div className="space-y-1.5">
+            <Label className="text-sm text-white/70">
+              Collection
+              <span className="text-white/30 text-xs font-normal ml-1">
+                (optional)
+              </span>
+            </Label>
+            <select
+              value={collectionId}
+              onChange={(e) => setCollectionId(e.target.value)}
+              className="w-full appearance-none rounded-md bg-white/5 border border-white/10 text-white text-sm px-3 py-2 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+            >
+              <option value="" className="bg-[#0f0f0f] text-white">
+                No collection
+              </option>
+              {collections.map((c) => (
+                <option
+                  key={c.id}
+                  value={c.id}
+                  className="bg-[#0f0f0f] text-white"
+                >
+                  {c.icon} {c.name}
+                </option>
+              ))}
+            </select>
           </div>
 
           {/* Actions */}

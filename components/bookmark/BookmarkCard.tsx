@@ -14,7 +14,7 @@ import {
   Calendar,
   KeyRound,
 } from 'lucide-react';
-import EditBookmarkDialog from './EditBook,arkDialog';
+import EditBookmarkDialog from './EditBookmarkDialog';
 
 // Imported shared Bookmark type — no more `any`!
 type BookmarkCardProps = {

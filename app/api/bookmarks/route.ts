@@ -27,7 +27,7 @@ export const POST = async (req: NextRequest) => {
     }
 
     const body = await req.json();
-    const { title, url } = body;
+    const { title, url, note, collectionId } = body;
 
     if (!url) {
       return Response.json({ error: 'URL is required' }, { status: 400 });
@@ -41,6 +41,9 @@ export const POST = async (req: NextRequest) => {
         title: title || url,
         url,
         favicon,
+        note: note || null,
+        collectionId: collectionId || null,
+        // Prisma expects null for optional String? fields, not "".
         userId: session.user.id,
       },
     });
@@ -94,6 +97,7 @@ export const GET = async (req: NextRequest) => {
             { title: { contains: searchQuery, mode: 'insensitive' } },
             { url: { contains: searchQuery, mode: 'insensitive' } },
             { description: { contains: searchQuery, mode: 'insensitive' } },
+            { note: { contains: searchQuery, mode: 'insensitive' } },
           ],
         }),
       },

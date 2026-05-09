@@ -100,6 +100,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
         url,
         title: title || url, // fallback to URL if title is empty
         note: note.trim() || null,
+        collectionId: collectionId || null,
       });
 
       // Tell the parent page about the new bookmark
@@ -124,6 +125,7 @@ const AddBookmarkDialog = ({ onAdd }: addBookmarkFormProps) => {
     setUrl('');
     setTitle('');
     setNote('');
+    setCollectionId('');
     setUrlError('');
     setIsFetching(false);
   };
